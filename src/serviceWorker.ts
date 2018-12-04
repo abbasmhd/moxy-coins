@@ -116,6 +116,6 @@ async function checkValidServiceWorker(swUrl: string, config?: Config) {
 export async function unregister() {
   if ('serviceWorker' in navigator) {
     let registration = await navigator.serviceWorker.ready;
-    registration.unregister();
+    registration.unregister(); 
   }
 }
