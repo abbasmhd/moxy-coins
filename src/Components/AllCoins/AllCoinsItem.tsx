@@ -9,7 +9,7 @@ export default function AllCoinsItem(props: any) {
       <div className="card-body">
         <h5 className="card-title" style={{fontSize: "1vw", whiteSpace: "nowrap"}}>{coin.FullName}</h5>
         {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
-        <a href="#" className="btn btn-primary">Details...</a>
+        <a href="#" className="btn btn-outline-info btn-sm">Details...</a>
       </div>
     </div>
   )
