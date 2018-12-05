@@ -1,3 +1,7 @@
+![Azure Pipelines](https://abbasmhd.visualstudio.com/Moxy-coins/_apis/build/status/Moxy-coins-CI)
+
+[Demo](https://moxy-coins.azurewebsites.net/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
