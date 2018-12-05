@@ -1,15 +1,27 @@
+/* eslint-disable no-restricted-globals */
 // service-worker.js
 // Flag for enabling cache in production
+
 var doCache = true;
-var CACHE_NAME = 'pwa-app-cache';
+
+var APP_NAME = 'moxy-coins';
+var CACHE_VERSION = 'v1';
+var CACHE_NAME = `${APP_NAME}-app-cache-${CACHE_VERSION}`;
+var CACHE_IMAGES = `${APP_NAME}-content-imgs`;
+
+var currentCachelist = [
+    CACHE_NAME,
+    CACHE_IMAGES
+];
 
 // Delete old caches
 self.addEventListener('activate', (event) => {
     console.info("service-worker activate");
-    const currentCachelist = [CACHE_NAME];
     event.waitUntil(
         caches.keys()
-        .then(keyList => Promise.all(keyList.filter(key => !currentCachelist.includes(key)).map(key => caches.delete(key))))
+        .then(keyList =>
+            Promise.all(keyList.filter(key => key.startsWith(`${APP_NAME}-`) && !currentCachelist.includes(key))
+                .map(key => caches.delete(key))))
     );
 });
 
@@ -33,6 +45,13 @@ self.addEventListener('install', (event) => {
                 //         ];
                 //         cache.addAll(urlsToCache);
                 //     })
+
+                cache.addAll([
+                    '/',
+                    // "/static/js/*.js"
+                    
+                    
+                ]);
             })
         );
     }
@@ -40,8 +59,22 @@ self.addEventListener('install', (event) => {
 
 // Here we intercept request and serve up the matching files
 self.addEventListener('fetch', (event) => {
-    // console.info("service-worker fetch");
+    console.info("service-worker fetch", event.request.url);
     if (doCache) {
+        var requestUrl = new URL(event.request.url);
+        // if (requestUrl.origin === location.origin) {
+            // if (requestUrl.pathname === '/') {
+            //   event.respondWith(caches.match('/skeleton'));
+            //   return;
+            // }
+console.info("requestUrl.pathname", requestUrl.pathname, requestUrl.pathname.startsWith('/media/'));
+
+            if (requestUrl.pathname.startsWith('/media/')) {
+                event.respondWith(servePhoto(event.request));
+                return;
+            }
+        // }
+
         event.respondWith(
             caches.match(event.request).then(function (response) {
                 console.info("service-worker fetch response", response);
@@ -51,20 +84,25 @@ self.addEventListener('fetch', (event) => {
     }
 });
 
-// This service worker file is effectively a 'no-op' that will reset any
-// previous service worker registered for the same host:port combination.
-// In the production build, this file is replaced with an actual service worker
-// file that will precache your site's local assets.
-// See https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+self.addEventListener('message', function (event) {
+    if (event.data.action === 'skipWaiting') {
+        self.skipWaiting();
+    }
+});
 
-// self.addEventListener('install', () => self.skipWaiting());
+async function servePhoto(request) {
+    return caches.open(CACHE_IMAGES)
+        .then((cache) => cache.match(request.url)
+            .then(response => {
 
-// self.addEventListener('activate', () => {
-//   self.clients.matchAll({ type: 'window' }).then(windowClients => {
-//     for (let windowClient of windowClients) {
-//       // Force open pages to refresh, so that they have a chance to load the
-//       // fresh navigation response from the local dev server.
-//       windowClient.navigate(windowClient.url);
-//     }
-//   });
-// });
+                console.info("servePhoto response", response); 
+                if (response) {
+                    return response;
+                }
+                return fetch(request).then(networkResponse => {
+                    cache.put(request.url, networkResponse.clone());
+                    return networkResponse;
+                })
+            }))
+
+} 
