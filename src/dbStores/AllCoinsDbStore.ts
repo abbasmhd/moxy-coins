@@ -5,7 +5,6 @@ export default class AllCoinsDbStore {
     private dbPromise: Promise<DB>;
     constructor() {
         this.dbPromise = idb.open('moxy-coins-db', 1, function (upgradeDb) {
-            console.info("upgradeDb.oldVersion", upgradeDb.oldVersion);
             switch (upgradeDb.oldVersion) {
                 case 0:
                     let store = upgradeDb.createObjectStore('all-coins', { keyPath: 'Id' });

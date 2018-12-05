@@ -16,7 +16,6 @@ var currentCachelist = [
 
 // Delete old caches
 self.addEventListener('activate', (event) => {
-    console.info("service-worker activate");
     event.waitUntil(
         caches.keys()
         .then(keyList =>
@@ -27,7 +26,6 @@ self.addEventListener('activate', (event) => {
 
 // This triggers when user starts the app
 self.addEventListener('install', (event) => {
-    console.info("service-worker install");
     if (doCache) {
         event.waitUntil(
             caches.open(CACHE_NAME)
@@ -60,7 +58,6 @@ self.addEventListener('install', (event) => {
 
 // Here we intercept request and serve up the matching files
 self.addEventListener('fetch', (event) => {
-    console.info("service-worker fetch", event.request.url);
     if (doCache) {
         var requestUrl = new URL(event.request.url);
         // if (requestUrl.origin === location.origin) {
@@ -68,17 +65,13 @@ self.addEventListener('fetch', (event) => {
             //   event.respondWith(caches.match('/skeleton'));
             //   return;
             // }
-console.info("requestUrl.pathname", requestUrl.pathname, requestUrl.pathname.startsWith('/media/'));
-
             if (requestUrl.pathname.startsWith('/media/')) {
                 event.respondWith(servePhoto(event.request));
                 return;
             }
         // }
-
         event.respondWith(
             caches.match(event.request).then(function (response) {
-                console.info("service-worker fetch response", response);
                 return response || fetch(event.request);
             })
         );
@@ -95,8 +88,6 @@ async function servePhoto(request) {
     return caches.open(CACHE_IMAGES)
         .then((cache) => cache.match(request.url)
             .then(response => {
-
-                console.info("servePhoto response", response); 
                 if (response) {
                     return response;
                 }
