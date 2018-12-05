@@ -40,7 +40,7 @@ self.addEventListener('install', (event) => {
 
 // Here we intercept request and serve up the matching files
 self.addEventListener('fetch', (event) => {
-    console.info("service-worker fetch");
+    // console.info("service-worker fetch");
     if (doCache) {
         event.respondWith(
             caches.match(event.request).then(function (response) {
