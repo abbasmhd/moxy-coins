@@ -49,6 +49,7 @@ self.addEventListener('install', (event) => {
                 cache.addAll([
                     '/',
                     // "/static/js/*.js"
+                    "/static/css/1.86bdc16c.chunk.css",
                     
                     
                 ]);
