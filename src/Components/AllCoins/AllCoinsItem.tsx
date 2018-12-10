@@ -1,11 +1,6 @@
 import React from "react";
-
-import ReactDOM from "react-dom";
 import LazyLoad from "react-lazyload";
-
 import { CoinItem } from "../../Contracts/coins";
-
-// declare var LazyLoad: any;
 
 export default function AllCoinsItem({ coin }: { coin: CoinItem }) {
   return (
@@ -13,7 +8,7 @@ export default function AllCoinsItem({ coin }: { coin: CoinItem }) {
       <LazyLoad height={200} once>
         <img
           className="card-img-top center-image"
-          src={"https://www.cryptocompare.com" + coin.ImageUrl}
+          src={`https://www.cryptocompare.com${coin.ImageUrl}`}
           alt={coin.FullName}
         />
       </LazyLoad>
@@ -29,15 +24,3 @@ export default function AllCoinsItem({ coin }: { coin: CoinItem }) {
     </div>
   );
 }
-
-/*
-    
-    <ul className="coin-item">
-        <li>{coin.SortOrder}</li>
-        <li><img src={"https://www.cryptocompare.com" + coin.ImageUrl} alt={coin.FullName} /></li>
-        <li>{coin.FullName}</li>
-        <li>{coin.TotalCoinSupply}</li>
-        <li>{coin.IsTrading}</li>
-        <li>{coin.TotalCoinsMined}</li>
-      </ul>
-      */
