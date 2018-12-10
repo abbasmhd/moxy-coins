@@ -48,8 +48,25 @@ self.addEventListener('install', (event) => {
                     '/',
                     // "/static/js/*.js"
                     "/static/css/1.86bdc16c.chunk.css",
-                    
-                    
+                    "/static/js/bundle.js",
+                    "/static/js/0.chunk.js",
+                    "/static/js/1.chunk.js",
+                    "/static/js/2.chunk.js",
+                    "/static/js/3.chunk.js",
+                    "/static/js/4.chunk.js",
+                    "/static/js/5.chunk.js",
+                    "/static/js/6.chunk.js",
+                    "/static/js/7.chunk.js",
+                    "/static/js/8.chunk.js",
+                    "/static/js/9.chunk.js",
+                    "/static/js/main.chunk.js",
+                    "/worker.js",
+                    "/manifest.json",
+                    //  "",
+                    //   "",
+                    //    "", 
+                    //    "",
+
                 ]);
             })
         );
@@ -61,14 +78,14 @@ self.addEventListener('fetch', (event) => {
     if (doCache) {
         var requestUrl = new URL(event.request.url);
         // if (requestUrl.origin === location.origin) {
-            // if (requestUrl.pathname === '/') {
-            //   event.respondWith(caches.match('/skeleton'));
-            //   return;
-            // }
-            if (requestUrl.pathname.startsWith('/media/')) {
-                event.respondWith(servePhoto(event.request));
-                return;
-            }
+        // if (requestUrl.pathname === '/') {
+        //   event.respondWith(caches.match('/skeleton'));
+        //   return;
+        // }
+        if (requestUrl.pathname.startsWith('/media/')) {
+            event.respondWith(servePhoto(event.request));
+            return;
+        }
         // }
         event.respondWith(
             caches.match(event.request).then(function (response) {
@@ -97,4 +114,4 @@ async function servePhoto(request) {
                 })
             }))
 
-} 
+}
