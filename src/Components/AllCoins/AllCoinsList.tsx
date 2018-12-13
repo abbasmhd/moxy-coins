@@ -12,11 +12,11 @@ export default class AllCoinsList extends Component {
   render() {
     return (
       <div>
-        {this.state.displayed.map(coin => (
+        {this.state.displayed.map((coin: CoinItem) => (
           <AllCoinsItem key={coin.Id} coin={coin} />
         ))}
         <div>
-          <button className="btn btn-info" onClick={e => this.loadMore(e)}>
+          <button className="btn btn-info" onClick={(e) => this.loadMore(e)}>
             Load more...
           </button>
         </div>
@@ -30,7 +30,7 @@ export default class AllCoinsList extends Component {
   }
 
   componentWillMount(): void {
-    this.getCoins().then(coins => {
+    this.getCoins().then((coins) => {
       this.setState({ coins });
       this.setDisplayedCoins(coins);
     });

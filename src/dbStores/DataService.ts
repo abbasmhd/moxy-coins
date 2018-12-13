@@ -1,14 +1,3 @@
-
-
 export default class DataService {
-    constructor() {
-        
-    }
-
-
-    
-
-
+  constructor() {}
 }
-
- 
