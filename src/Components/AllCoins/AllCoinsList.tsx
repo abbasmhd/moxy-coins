@@ -12,11 +12,11 @@ export default class AllCoinsList extends Component {
   render() {
     return (
       <div>
-        {this.state.displayed.map((coin: CoinItem) => (
+        {this.state.displayed.map(coin => (
           <AllCoinsItem key={coin.Id} coin={coin} />
         ))}
         <div>
-          <button className="btn btn-info" onClick={(e) => this.loadMore(e)}>
+          <button className="btn btn-info" onClick={e => this.loadMore(e)}>
             Load more...
           </button>
         </div>
@@ -30,7 +30,7 @@ export default class AllCoinsList extends Component {
   }
 
   componentWillMount(): void {
-    this.getCoins().then((coins) => {
+    this.getCoins().then(coins => {
       this.setState({ coins });
       this.setDisplayedCoins(coins);
     });
@@ -41,9 +41,9 @@ export default class AllCoinsList extends Component {
     return await db.getCoinList();
   }
 
-  private setDisplayedCoins(coins: Array<CoinItem>) {
+  private setDisplayedCoins(coins: Array<CoinItem>, length = 21) {
     let start = this.state.displayed.length;
-    let stop = start + 21;
+    let stop = start + length;
     this.setState({ displayed: [...this.state.displayed, ...coins.slice(start, stop)] });
   }
 }
