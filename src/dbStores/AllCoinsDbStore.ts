@@ -1,13 +1,13 @@
-import idb, { DB } from "idb";
+import idb, { DB, UpgradeDB } from "idb";
 import { CoinItem } from "../Contracts/coins";
 
 export default class AllCoinsDbStore {
   private dbPromise: Promise<DB>;
   constructor() {
-    this.dbPromise = idb.open("moxy-coins-db", 1, function(upgradeDb) {
+    this.dbPromise = idb.open("moxy-coins-db", 1, function(upgradeDb: UpgradeDB): void {
       switch (upgradeDb.oldVersion) {
         case 0:
-          let store = upgradeDb.createObjectStore("all-coins", { keyPath: "Id" });
+          let store = upgradeDb.createObjectStore<CoinItem, number>("all-coins", { keyPath: "Id" });
           store.createIndex("sortOrder", "SortOrder");
           store.createIndex("name", "Name");
           store.createIndex("symbol", "Symbol");
@@ -26,15 +26,15 @@ export default class AllCoinsDbStore {
   }
 
   private async getStore() {
-    var db = await this.dbPromise;
-    var tx = db.transaction("all-coins", "readwrite");
-    return tx.objectStore("all-coins");
+    const db = await this.dbPromise;
+    const tx = db.transaction("all-coins", "readwrite");
+    return tx.objectStore<CoinItem, number>("all-coins");
   }
 
   private async getCoinListFromStore() {
-    let store = await this.getStore();
-    var sortIndex = store.index("sortOrder");
-    return (await sortIndex.getAll()) as Array<CoinItem>;
+    const store = await this.getStore();
+    const sortIndex = store.index<number>("sortOrder");
+    return await sortIndex.getAll();
   }
 
   public async getCoinList() {
