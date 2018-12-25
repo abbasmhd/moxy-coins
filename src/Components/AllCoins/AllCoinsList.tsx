@@ -11,7 +11,7 @@ export default class AllCoinsList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         {this.state.displayed.map((coin: CoinItem) => (
           <AllCoinsItem key={coin.Id} coin={coin} />
         ))}
