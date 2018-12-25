@@ -42,7 +42,7 @@ export default class AllCoinsDbStore {
     if (coinlist.length > 0) {
       return coinlist;
     }
-    const url = "https://min-api.cryptocompare.com/data/all/coinlist";
+    const url = `${process.env.REACT_APP_DATA_API_URL}/data/all/coinlist`;
     var response = await fetch(url);
     let results = await response.json();
     var db = await this.dbPromise;
