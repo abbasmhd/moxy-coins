@@ -17,14 +17,14 @@ export default class ScrollButton extends Component<any, any, any> {
   }
 
   scrollToTop() {
-    let intervalId = setInterval(this.scrollStep, this.props.delayInMs);
+    let intervalId = setInterval(() => this.scrollStep(), this.props.delayInMs);
     this.setState({ intervalId });
   }
 
   render() {
     return (
-      <button className="scroll" title="Back to top">
-        <span className="arrow-up glyphicon glyphicon-chevron-up" />
+      <button className="scroll" title="Back to top" onClick={() => this.scrollToTop()}>
+        <span className="arrow-up fa fa-chevron-up" />
       </button>
     );
   }
