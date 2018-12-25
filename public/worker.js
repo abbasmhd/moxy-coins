@@ -2,7 +2,7 @@
 // service-worker.js
 // Flag for enabling cache in production
 
-var doCache = false;
+var doCache = true;
 
 var APP_NAME = 'moxy-coins';
 var CACHE_VERSION = 'v1';
