@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AllCoinsDbStore from "../../dbStores/AllCoinsDbStore";
 import { CoinItem } from "../../Contracts/coins";
 import AllCoinsItem from "./AllCoinsItem";
+import ScrollButton from "../../Common/ScrollButton";
 
 export default class AllCoinsList extends Component {
   state = {
@@ -20,6 +21,7 @@ export default class AllCoinsList extends Component {
             Load more...
           </button>
         </div>
+        <ScrollButton scrollStepInPx="50" delayInMs="16.66" />
       </div>
     );
   }
