@@ -45,7 +45,7 @@ export default class AllCoinsList extends Component {
 
   private setDisplayedCoins(coins: Array<CoinItem>) {
     let start = this.state.displayed.length;
-    let stop = start + 21;
+    let stop = start + 20;
     this.setState({ displayed: [...this.state.displayed, ...coins.slice(start, stop)] });
   }
 }
